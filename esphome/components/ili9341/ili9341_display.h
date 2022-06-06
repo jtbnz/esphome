@@ -12,6 +12,7 @@ namespace ili9341 {
 enum ILI9341Model {
   M5STACK = 0,
   TFT_24,
+  ILI9481,
 };
 
 enum ILI9341ColorMode {
@@ -102,5 +103,12 @@ class ILI9341TFT24 : public ILI9341Display {
  public:
   void initialize() override;
 };
+
+//-----------   ILI9481_35_TFT display --------------
+class ILI9481TFT35 : public ILI9341Display {
+ public:
+  void initialize() override;
+};
+
 }  // namespace ili9341
 }  // namespace esphome
