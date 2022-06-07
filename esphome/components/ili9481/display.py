@@ -18,32 +18,32 @@ DEPENDENCIES = ["spi"]
 
 CONF_LED_PIN = "led_pin"
 
-ili9341_ns = cg.esphome_ns.namespace("ili9341")
-ili9341 = ili9341_ns.class_(
-    "ILI9341Display", cg.PollingComponent, spi.SPIDevice, display.DisplayBuffer
+ILI9481_ns = cg.esphome_ns.namespace("ILI9481")
+ILI9481 = ILI9481_ns.class_(
+    "ILI9481Display", cg.PollingComponent, spi.SPIDevice, display.DisplayBuffer
 )
-ILI9341M5Stack = ili9341_ns.class_("ILI9341M5Stack", ili9341)
-ILI9341TFT24 = ili9341_ns.class_("ILI9341TFT24", ili9341)
-ILI9481TFT35 = ili9341_ns.class_("ILI9481TFT35", ili9341)
+ILI9481M5Stack = ILI9481_ns.class_("ILI9481M5Stack", ILI9481)
+ILI9481TFT24 = ILI9481_ns.class_("ILI9481TFT24", ILI9481)
+ILI9481TFT35 = ILI9481_ns.class_("ILI9481TFT35", ILI9481)
 
-ILI9341Model = ili9341_ns.enum("ILI9341Model")
-ILI9341ColorMode = ili9341_ns.enum("ILI9341ColorMode")
+ILI9481Model = ILI9481_ns.enum("ILI9481Model")
+ILI9481ColorMode = ILI9481_ns.enum("ILI9481ColorMode")
 
 MODELS = {
-    "M5STACK": ILI9341Model.M5STACK,
-    "TFT_2.4": ILI9341Model.TFT_24,
-    "TFT_3.5": ILI9341Model.ILI9481,
+    "M5STACK": ILI9481Model.M5STACK,
+    "TFT_2.4": ILI9481Model.TFT_24,
+    "TFT_3.5": ILI9481Model.ILI9481,
 }
 
-ILI9341_MODEL = cv.enum(MODELS, upper=True, space="_")
+ILI9481_MODEL = cv.enum(MODELS, upper=True, space="_")
 
 COLOR_PALETTE = cv.one_of("NONE", "GRAYSCALE")
 
 CONFIG_SCHEMA = cv.All(
     display.FULL_DISPLAY_SCHEMA.extend(
         {
-            cv.GenerateID(): cv.declare_id(ili9341),
-            cv.Required(CONF_MODEL): ILI9341_MODEL,
+            cv.GenerateID(): cv.declare_id(ILI9481),
+            cv.Required(CONF_MODEL): ILI9481_MODEL,
             cv.Required(CONF_DC_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_LED_PIN): pins.gpio_output_pin_schema,
@@ -59,9 +59,9 @@ CONFIG_SCHEMA = cv.All(
 
 async def to_code(config):
     if config[CONF_MODEL] == "M5STACK":
-        lcd_type = ILI9341M5Stack
+        lcd_type = ILI9481M5Stack
     if config[CONF_MODEL] == "TFT_2.4":
-        lcd_type = ILI9341TFT24
+        lcd_type = ILI9481TFT24
     if config[CONF_MODEL] == "TFT_3.5":
         lcd_type = ILI9481TFT35
     rhs = lcd_type.new()
@@ -87,7 +87,7 @@ async def to_code(config):
         cg.add(var.set_led_pin(led_pin))
 
     if config[CONF_COLOR_PALETTE] == "GRAYSCALE":
-        cg.add(var.set_buffer_color_mode(ILI9341ColorMode.BITS_8_INDEXED))
+        cg.add(var.set_buffer_color_mode(ILI9481ColorMode.BITS_8_INDEXED))
         rhs = []
         for x in range(256):
             rhs.extend([HexInt(x), HexInt(x), HexInt(x)])
