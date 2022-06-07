@@ -18,16 +18,16 @@ DEPENDENCIES = ["spi"]
 
 CONF_LED_PIN = "led_pin"
 
-ILI9481_ns = cg.esphome_ns.namespace("ILI9481")
-ILI9481 = ILI9481_ns.class_(
+ili9481_ns = cg.esphome_ns.namespace("ili9481")
+ili9481 = ili9481_ns.class_(
     "ILI9481Display", cg.PollingComponent, spi.SPIDevice, display.DisplayBuffer
 )
-ILI9481M5Stack = ILI9481_ns.class_("ILI9481M5Stack", ILI9481)
-ILI9481TFT24 = ILI9481_ns.class_("ILI9481TFT24", ILI9481)
-ILI9481TFT35 = ILI9481_ns.class_("ILI9481TFT35", ILI9481)
+ILI9481M5Stack = ili9481_ns.class_("ILI9481M5Stack", ili9481)
+ILI9481TFT24 = ili9481_ns.class_("ILI9481TFT24", ili9481)
+ILI9481TFT35 = ili9481_ns.class_("ILI9481TFT35", ili9481)
 
-ILI9481Model = ILI9481_ns.enum("ILI9481Model")
-ILI9481ColorMode = ILI9481_ns.enum("ILI9481ColorMode")
+ILI9481Model = ili9481_ns.enum("ILI9481Model")
+ILI9481ColorMode = ili9481_ns.enum("ILI9481ColorMode")
 
 MODELS = {
     "M5STACK": ILI9481Model.M5STACK,
